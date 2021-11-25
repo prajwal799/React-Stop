@@ -1,41 +1,35 @@
 import "./styles.css";
 import React, { useState } from "react";
-function CountDown({ initial }) {
-  const [time, setTime] = React.useState(initial);
-  const [isRunning, setIsRunning] = React.useState(false);
-  const timerRef = React.useRef();
+
+function Counter({ starttime, endTime }) {
+  const [time, setTimer] = React.useState(starttime);
+  const [end, setEndTime] = React.useState(endTime);
 
   React.useEffect(() => {
-    startTimer();
+    StartTimer();
   }, []);
-
-  const startTimer = () => {
-    if (isRunning) {
-      return;
-    }
-    timerRef.current = setInterval(() => {
-      setTime((prev) => {
-        if (prev - 1 == 0) {
-          clearInterval(timerRef.current);
+  const StartTimer = () => {
+    const id = setInterval(() => {
+      setTimer((prev) => {
+        if (end == prev + 1) {
+          clearInterval(id);
         }
-        return prev - 1;
+        return prev + 1;
       });
     }, 1000);
-    setIsRunning(true);
   };
   return (
     <>
-      <h1>Counter</h1>
-      <h3>{time}</h3>
+      <h1> start Time :{time}</h1>
+      <h1>End Time :{end}</h1>
     </>
   );
 }
 export default function App() {
-  const [hide, setHide] = useState(false);
   return (
     <div className="App">
-      {!hide && <CountDown initial={5} />}
-      <button onClick={() => setHide(!hide)}>Toggle</button>
+      <h1>Counter</h1>
+      <Counter starttime={10} endTime={20} />
     </div>
   );
 }
